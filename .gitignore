@@ -1,0 +1,18 @@
+# Dependencies
+/packages/
+
+# Tmp files
+*.tmp
+*.temp
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+.DS_Store
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.env
