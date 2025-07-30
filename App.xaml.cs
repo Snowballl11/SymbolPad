@@ -46,7 +46,8 @@ namespace SymbolPad
             
 
             _taskbarIcon = new TaskbarIcon();
-                        _taskbarIcon.Icon = new System.Drawing.Icon("C:\\Users\\lpf05\\Desktop\\Project3\\SymbolPad\\Assets\\icon.ico");
+                        var iconStream = GetResourceStream(new Uri("pack://application:,,,/Assets/icon.ico")).Stream;
+            _taskbarIcon.Icon = new System.Drawing.Icon(iconStream);
             _taskbarIcon.ToolTipText = "SymbolPad";
 
             var showMenuItem = new System.Windows.Controls.MenuItem { Header = "Show" };
