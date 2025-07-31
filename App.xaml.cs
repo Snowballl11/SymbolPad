@@ -64,19 +64,31 @@ namespace SymbolPad
                 };
                 settingsWindow.Show();
             };
+            var aboutMenuItem = new System.Windows.Controls.MenuItem { Header = "About" };
+            aboutMenuItem.Click += (s, e) =>
+            {
+                var aboutWindow = new AboutWindow();
+                aboutWindow.Show();
+            };
+
             var exitMenuItem = new System.Windows.Controls.MenuItem { Header = "Exit" };
             exitMenuItem.Click += (s, e) => Shutdown();
 
             contextMenu.Items.Add(showMenuItem);
             contextMenu.Items.Add(settingsMenuItem);
+            contextMenu.Items.Add(aboutMenuItem);
             contextMenu.Items.Add(exitMenuItem);
             _taskbarIcon.ContextMenu = contextMenu;
-            
+
             // 5. Setup Hotkeys
             _hotkeyService = new HotkeyService(_mainWindow);
             _hotkeyService.RegisterHotkeys();
             _hotkeyService.ShowMainWindowRequested += () => _mainWindow.Show();
             _hotkeyService.ShowSearchWindowRequested += () => _searchWindow.Show();
+
+            // 6. Show About Window on Startup
+            var aboutWindowOnStartup = new AboutWindow();
+            aboutWindowOnStartup.Show();
         }
 
         public void ApplyTheme(bool isDark)
