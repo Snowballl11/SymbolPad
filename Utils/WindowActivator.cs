@@ -17,6 +17,13 @@ namespace SymbolPad.Utils
             SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_NOACTIVATE);
         }
 
+        public static void ClearNoActivate(Window window)
+        {
+            var helper = new WindowInteropHelper(window);
+            var hwnd = helper.EnsureHandle();
+            SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) & ~WS_EX_NOACTIVATE);
+        }
+
         [DllImport("user32.dll")]
         private static extern int GetWindowLong(IntPtr hwnd, int index);
 

@@ -38,5 +38,17 @@ namespace SymbolPad
                 }
             }
         }
+
+        private void SearchBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            WindowActivator.ClearNoActivate(this);
+            this.Activate();
+            SearchBox.Focus();
+        }
+
+        private void SearchBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            WindowActivator.SetNoActivate(this);
+        }
     }
 }

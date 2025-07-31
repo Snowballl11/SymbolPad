@@ -17,10 +17,12 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBox Name="SearchBox" 
+                        <TextBox Name="SearchBox" 
                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                      Margin="10" Padding="5" FontSize="14"
-                     BorderBrush="#B0B0B0" BorderThickness="1"/>
+                     BorderBrush="#B0B0B0" BorderThickness="1"
+                     PreviewMouseDown="SearchBox_PreviewMouseDown"
+                     LostKeyboardFocus="SearchBox_LostKeyboardFocus"/>
 
             <ListBox Grid.Row="1" ItemsSource="{Binding FilteredSymbols}" Margin="10,0,10,10"
                      BorderThickness="0" >
