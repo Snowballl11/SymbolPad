@@ -25,6 +25,7 @@
         <GroupBox Grid.Row="0" Header="General" Margin="5">
             <StackPanel>
                 <CheckBox IsChecked="{Binding IsDarkMode}" Content="Enable Dark Mode"/>
+                <CheckBox IsChecked="{Binding SilentLaunch}" Content="Silent Launch"/>
                 <!-- Add other general settings here -->
             </StackPanel>
         </GroupBox>

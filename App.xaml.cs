@@ -87,8 +87,11 @@ namespace SymbolPad
             _hotkeyService.ShowSearchWindowRequested += () => _searchWindow.Show();
 
             // 6. Show About Window on Startup
-            var aboutWindowOnStartup = new AboutWindow();
-            aboutWindowOnStartup.Show();
+            if (!settings.SilentLaunch)
+            {
+                var aboutWindowOnStartup = new AboutWindow();
+                aboutWindowOnStartup.Show();
+            }
         }
 
         public void ApplyTheme(bool isDark)

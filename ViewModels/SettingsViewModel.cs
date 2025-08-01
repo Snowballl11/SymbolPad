@@ -11,6 +11,7 @@ namespace SymbolPad.ViewModels
         private readonly SymbolService _symbolService;
         private Symbol? _selectedSymbol;
         private bool _isDarkMode;
+        private bool _silentLaunch;
 
         public ObservableCollection<Symbol> Symbols { get; }
         public ICommand AddSymbolCommand { get; }
@@ -22,12 +23,14 @@ namespace SymbolPad.ViewModels
 
         public Symbol? SelectedSymbol { get => _selectedSymbol; set { _selectedSymbol = value; OnPropertyChanged(); } }
         public bool IsDarkMode { get => _isDarkMode; set { _isDarkMode = value; OnPropertyChanged(); } }
+        public bool SilentLaunch { get => _silentLaunch; set { _silentLaunch = value; OnPropertyChanged(); } }
 
         public SettingsViewModel(SymbolService symbolService)
         {
             _symbolService = symbolService;
             var settings = StorageService.LoadSettings(); // Load current settings
             IsDarkMode = settings.IsDarkMode;
+            SilentLaunch = settings.SilentLaunch;
             Symbols = new ObservableCollection<Symbol>(_symbolService.GetSymbols());
             
             AddSymbolCommand = new RelayCommand(_ => AddSymbol());
@@ -118,6 +121,7 @@ namespace SymbolPad.ViewModels
             var newSettings = new UserSettings
             {
                 IsDarkMode = this.IsDarkMode,
+                SilentLaunch = this.SilentLaunch,
                 SymbolOrder = new System.Collections.Generic.List<System.Guid>(Symbols.Select(s => s.Id)),
                 CustomSymbols = new System.Collections.Generic.List<Symbol>(Symbols.Where(s => !s.IsDefault))
             };
