@@ -9,6 +9,7 @@ namespace SymbolPad.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
+        private readonly SymbolService _symbolService;
         private readonly InputService _inputService;
         public AppState AppState { get; } // Expose AppState to the View
 
@@ -16,17 +17,15 @@ namespace SymbolPad.ViewModels
         public ICommand InputSymbolCommand { get; }
         public ICommand ToggleWidthModeCommand { get; }
 
-        // Constructor updated to accept AppState
         public MainViewModel(SymbolService symbolService, InputService inputService, AppState appState)
         {
+            _symbolService = symbolService;
             _inputService = inputService;
             AppState = appState;
-            var allSymbols = symbolService.GetSymbols();
-            
-            foreach (var symbol in allSymbols)
-            {
-                TopSymbols.Add(symbol);
-            }
+
+            LoadSymbols();
+
+            _symbolService.OnSymbolsChanged += LoadSymbols;
 
             InputSymbolCommand = new RelayCommand(ExecuteInputSymbol);
 
@@ -35,6 +34,16 @@ namespace SymbolPad.ViewModels
                 _inputService.ToggleFullWidthMode();
                 AppState.IsFullWidthMode = !AppState.IsFullWidthMode;
             });
+        }
+
+        private void LoadSymbols()
+        {
+            TopSymbols.Clear();
+            var allSymbols = _symbolService.GetSymbols();
+            foreach (var symbol in allSymbols)
+            {
+                TopSymbols.Add(symbol);
+            }
         }
 
         private void ExecuteInputSymbol(object? parameter)

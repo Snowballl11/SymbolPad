@@ -9,6 +9,8 @@ namespace SymbolPad.Services
         private readonly List<Symbol> _defaultSymbols;
         private UserSettings _userSettings;
 
+        public event Action? OnSymbolsChanged;
+
         public SymbolService()
         {
             _defaultSymbols = InitializeDefaultSymbols();
@@ -35,7 +37,7 @@ namespace SymbolPad.Services
                 }
             }
             
-            orderedSymbols.AddRange(symbolMap.Values.OrderBy(s => s.Name));
+            orderedSymbols.AddRange(symbolMap.Values.OrderBy(s => s.Id));
 
             return orderedSymbols;
         }
@@ -44,6 +46,7 @@ namespace SymbolPad.Services
         {
             _userSettings = settings;
             StorageService.SaveSettings(_userSettings);
+            OnSymbolsChanged?.Invoke();
         }
 
         private List<Symbol> InitializeDefaultSymbols()

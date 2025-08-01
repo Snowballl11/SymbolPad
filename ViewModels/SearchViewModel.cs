@@ -11,8 +11,9 @@ namespace SymbolPad.ViewModels
 {
     public class SearchViewModel : ObservableObject
     {
+        private readonly SymbolService _symbolService;
         private readonly InputService _inputService;
-        private readonly List<Symbol> _allSymbols;
+        private List<Symbol>? _allSymbols;
         private string _searchText = string.Empty;
         
         public AppState AppState { get; }
@@ -32,15 +33,27 @@ namespace SymbolPad.ViewModels
 
         public SearchViewModel(SymbolService symbolService, InputService inputService, AppState appState)
         {
+            _symbolService = symbolService;
             _inputService = inputService;
             AppState = appState;
-            _allSymbols = symbolService.GetSymbols();
+
+            LoadSymbols();
+
+            _symbolService.OnSymbolsChanged += LoadSymbols;
+
             SelectSymbolCommand = new RelayCommand(ExecuteSelectSymbol);
+        }
+
+        private void LoadSymbols()
+        {
+            _allSymbols = _symbolService.GetSymbols();
             FilterSymbols(); // Initial load
         }
 
         private void FilterSymbols()
         {
+            if (_allSymbols == null) return;
+
             FilteredSymbols.Clear();
             if (string.IsNullOrWhiteSpace(SearchText))
             {
